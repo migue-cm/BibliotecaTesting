@@ -46,7 +46,7 @@ public class FrmMenuPrincipal extends JFrame {
         itemRegistrar.addActionListener(e ->
                 new FrmRegistrarLibro().setVisible(true));
 
-        // se implementarán luego
+       
         itemPrestar.addActionListener(e ->
         new FrmPrestarLibro().setVisible(true));
 

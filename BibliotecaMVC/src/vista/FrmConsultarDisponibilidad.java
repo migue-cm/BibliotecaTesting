@@ -23,7 +23,7 @@ public class FrmConsultarDisponibilidad extends JFrame {
     public FrmConsultarDisponibilidad(){
 
         setTitle("Consultar Disponibilidad");
-        setSize(700,450);
+        setSize(900,450);
         setLayout(null);
 
         crearComponentes();
@@ -54,10 +54,9 @@ public class FrmConsultarDisponibilidad extends JFrame {
         JScrollPane sp =
                 new JScrollPane(tabla);
 
-        sp.setBounds(20,70,640,300);
+        sp.setBounds(20,70,740,300);
         add(sp);
 
-        // BUSQUEDA DINAMICA
         txtBuscar.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 cargarTabla(txtBuscar.getText());

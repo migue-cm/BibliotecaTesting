@@ -16,7 +16,13 @@ public class FrmPrestarLibro extends JFrame {
     JTable tabla=new JTable();
     DefaultTableModel modelo=
             new DefaultTableModel();
-
+    
+    
+    
+    JLabel lblDni = new JLabel("DNI:"); 
+    JLabel lblNombre = new JLabel("Nombre:");
+    
+    
     JTextField txtDni=new JTextField();
     JTextField txtNombre=new JTextField();
 
@@ -30,22 +36,26 @@ public class FrmPrestarLibro extends JFrame {
     public FrmPrestarLibro(){
 
         setTitle("Prestar Libro");
-        setSize(600,400);
+        setSize(700,400);
         setLayout(null);
 
         crearTabla();
         cargarLibros();
 
-        Validaciones.soloNumeros(txtDni);
+        Validaciones.limitarDNI(txtDni);
         Validaciones.soloLetras(txtNombre);
 
-        txtDni.setBounds(20,250,120,25);
-        txtNombre.setBounds(160,250,200,25);
-        btnPrestar.setBounds(380,250,120,30);
-
+        lblDni.setBounds(20,250,100,25);
+        txtDni.setBounds(50,250,120,25);
+        lblNombre.setBounds(180,250,80,25);
+        txtNombre.setBounds(240,250,200,25);
+        btnPrestar.setBounds(530,250,120,30);
+       
         add(txtDni);
         add(txtNombre);
         add(btnPrestar);
+        add(lblDni);
+        add(lblNombre);
 
         eventos();
     }
@@ -60,7 +70,7 @@ public class FrmPrestarLibro extends JFrame {
 
         tabla.setModel(modelo);
         JScrollPane sp=new JScrollPane(tabla);
-        sp.setBounds(20,20,540,200);
+        sp.setBounds(20,20,640,200);
         add(sp);
     }
 
@@ -97,24 +107,70 @@ public class FrmPrestarLibro extends JFrame {
 
         btnPrestar.addActionListener(e->prestar());
     }
-
+    
     private void prestar(){
 
-        if(idLibroSeleccionado==-1){
+        String dni = txtDni.getText().trim();
+        String nombre = txtNombre.getText().trim();
+
+        if(dni.isEmpty()){
             JOptionPane.showMessageDialog(this,
-                    "Seleccione libro");
+                    "Ingrese el DNI del lector",
+                    "Campo obligatorio",
+                    JOptionPane.WARNING_MESSAGE);
+            txtDni.requestFocus();
             return;
         }
 
-        if(controller.prestarLibro(
+        if(dni.length() != 8){
+            JOptionPane.showMessageDialog(this,
+                    "El DNI debe contener exactamente 8 digitos",
+                    "DNI invalido",
+                    JOptionPane.WARNING_MESSAGE);
+            txtDni.requestFocus();
+            return;
+        }
+
+        if(nombre.isEmpty()){
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese el nombre del lector",
+                    "Campo obligatorio",
+                    JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+
+        if(idLibroSeleccionado == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar un libro para prestar",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        boolean exito = controller.prestarLibro(
                 idLibroSeleccionado,
-                txtDni.getText(),
-                txtNombre.getText())){
+                dni,
+                nombre
+        );
+
+        if(exito){
 
             JOptionPane.showMessageDialog(this,
-                    "Prestamo registrado");
+                    "Prestamo registrado correctamente");
 
-            dispose();
+            
+            txtDni.setText("");
+            txtNombre.setText("");
+            tabla.clearSelection();
+            idLibroSeleccionado = -1;
+
+        }else{
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo registrar el prestamo",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

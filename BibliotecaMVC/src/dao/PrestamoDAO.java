@@ -26,7 +26,7 @@ public class PrestamoDAO {
 
             ps.executeUpdate();
 
-            // DESCONTAR STOCK
+            // decuenta stock
             PreparedStatement update=
             con.prepareStatement(
             "UPDATE libro SET cantidad=cantidad-1 WHERE id=?");

@@ -15,7 +15,7 @@ public class ConexionBD {
 
                 String url = "jdbc:postgresql://localhost:5432/bibliotecaa";
                 String user = "postgres";
-                String password = "root"; // cambia tu password
+                String password = "root";
 
                 Class.forName("org.postgresql.Driver");
                 conexion = DriverManager.getConnection(url, user, password);
