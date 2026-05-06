@@ -2,6 +2,8 @@
 
 SCRIPTS PARA LA BASE DE DATOS
 
+Nombre BD: bibliotecaa
+
 CREATE TABLE libro(
     id SERIAL PRIMARY KEY,
     isbn VARCHAR(20) UNIQUE NOT NULL,
